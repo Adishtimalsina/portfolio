@@ -1,0 +1,17 @@
+<header class="top-0 left-0 right-0  bg-black/90">
+  <div class="max-w-7xl right-0">
+      <div class="flex py-5 mx-auto space-x-10">
+        <nav class="sm:flex hidden text-white space-x-4" >
+          <li *ngFor="let item of links" class="list-none xl:text-3xl md:text-xl">
+            <a [href]="item.href">{{item.name}}</a>
+          </li>
+        </nav>
+
+        <button
+          class="flex w-10 h-10">
+          <img [src]="'assets/menu.svg'" alt="toggle" class="flex sm:w-6 sm:h-6 md:w-8 md:h-8 xl:w-10 xl:h-10"/>
+        </button>
+
+      </div>
+  </div>
+</header>
