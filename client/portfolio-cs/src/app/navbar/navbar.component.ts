@@ -1,23 +1,35 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { links } from '../constants'
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-navbar',
   imports: [
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent {
 
-  public getNavLinks(){
-    links.map((link)=>{
-      console.log("links", link)
-    })
+export class NavbarComponent implements OnInit{
+
+  isOpen = false;
+
+  // public getNavLinks(){
+  //   links.map((link)=>{
+  //     console.log("links", link)
+  //   })
+  // }
+
+
+  public static navOpenClose(){
+
   }
 
 
   protected readonly links = links;
+
+  ngOnInit(): void {
+  }
 }
