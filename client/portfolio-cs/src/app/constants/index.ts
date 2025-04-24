@@ -12,7 +12,7 @@ export const links = [
   },
   {
     id:3,
-    name:"Professional Experience",
+    name:"Experience",
     href:"/professionalexperience"
   },
   {

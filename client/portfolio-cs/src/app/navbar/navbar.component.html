@@ -3,13 +3,13 @@
       <div class="flex sm:py-4 md:py-5 xl:py-6 justify-center space-x-10">
         <nav class="sm:flex hidden text-white space-x-6" >
           <li *ngFor="let item of links"
-              class="list-none 2xl:text-2xl xl:text-2xl md:text-xl">
+              class="list-none 3xl:text-2xl 2xl:text-xl xl:text-xl md:text-lg">
             <a [href]="item.href">{{item.name}}</a>
           </li>
         </nav>
 
         <button
-          class="flex w-10 h-10 sm:hidden lg:hidden md:hidden xl:hidden 2xl:hidden" (click)="isOpen = !isOpen">
+          class="flex w-13 h-13 sm:hidden lg:hidden md:hidden xl:hidden 2xl:hidden py-3" (click)="isOpen = !isOpen">
           <img
             *ngIf="!isOpen"
             [src]= "'assets/menu.svg'"
@@ -24,4 +24,16 @@
 
       </div>
   </div>
+
+  <!--        menu list for open and close menu-->
+
+  <div class="slide-menu bg-black/90 h-auto w-auto sm:hidden lg:hidden md:hidden xl:hidden 2xl:hidden py-5 pl-3 pr-10 border-2 border-amber-100 right-0" *ngIf="isOpen">
+    <div class="grid justify-end ">
+    <li *ngFor="let item of links"
+        class="list-none 2xl:text-2xl xl:text-2xl md:text-xl text-xl py-3 px-4 text-white">
+      <a [href]="item.href">{{item.name}}</a>
+    </li>
+    </div>
+  </div>
+
 </header>
