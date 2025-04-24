@@ -1,4 +1,4 @@
-<header class="top-0 left-0 right-0  bg-black/90 ">
+<header class="top-0 left-0 right-0 bg-black/90 relative">
   <div class="menu flex justify-end mx-auto px-5">
       <div class="flex sm:py-4 md:py-5 xl:py-6 justify-center space-x-10">
         <nav class="sm:flex hidden text-white space-x-6" >
@@ -27,10 +27,10 @@
 
   <!--        menu list for open and close menu-->
 
-  <div class="slide-menu bg-black/90 h-auto w-auto sm:hidden lg:hidden md:hidden xl:hidden 2xl:hidden py-5 pl-3 pr-10 border-2 border-amber-100 right-0" *ngIf="isOpen">
-    <div class="grid justify-end ">
+  <div class="slide-menu h-auto w-auto sm:hidden lg:hidden md:hidden xl:hidden 2xl:hidden py-5 pl-3 pr-10 border-2 border-amber-100 right-2 text-white mt-5" *ngIf="isOpen">
+    <div class="grid ">
     <li *ngFor="let item of links"
-        class="list-none 2xl:text-2xl xl:text-2xl md:text-xl text-xl py-3 px-4 text-white">
+        class="list-none 2xl:text-2xl xl:text-2xl md:text-xl text-xl py-3 px-4 text-white hover:text-2xl">
       <a [href]="item.href">{{item.name}}</a>
     </li>
     </div>
