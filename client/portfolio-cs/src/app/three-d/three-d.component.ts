@@ -50,7 +50,7 @@ export class ThreeDComponent implements AfterViewInit {
     light.position.set(1, 1, 1);
     scene.add(light);
 
-    const orbitController = new OrbitControls(camera, renderer.domElement);
+    //const orbitController = new OrbitControls(camera, renderer.domElement);
 
     camera.position.z = 9;
 
@@ -59,9 +59,26 @@ export class ThreeDComponent implements AfterViewInit {
       cube.rotation.x += 0.01;
       cube.rotation.y += 0.01;
 
-      orbitController.update();
+    //  orbitController.update();
       renderer.render(scene, camera);
     };
+
+    window.addEventListener('resize', ()=>{
+      const width = window.innerWidth;
+      let factor = 1;
+
+      if(width < 768 ){
+        factor = 0.6;
+      }else if(width < 1024){
+        factor = 0.8
+      }
+
+      cube.scale.set(factor, factor, factor)
+      base.scale.set(factor, factor, factor)
+      camera.aspect = window.innerWidth/ window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    })
 
     animate();
   }
