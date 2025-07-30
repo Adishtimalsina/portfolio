@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import { links } from '../constants'
-import {NgForOf, NgIf} from "@angular/common";
+import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 
 @Component({
   selector: 'app-navbar',
   imports: [
     NgForOf,
-    NgIf
+    NgIf,
+    NgOptimizedImage
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
