@@ -1,10 +1,10 @@
-<header class="top-0 left-0 right-0 bg-black/90 relative">
+<header class="top-0 left-0 right-0 bg-black/85 relative">
   <div class="menu flex justify-end mx-auto px-5">
       <div class="flex sm:py-4 md:py-5 xl:py-6 justify-center space-x-10 relative ">
         <nav class="sm:flex hidden text-white space-x-6" >
           <li *ngFor="let item of links"
-              class="list-none 3xl:text-2xl 2xl:text-xl xl:text-xl md:text-lg">
-            <a [href]="item.href">{{item.name}}</a>
+              class="list-none 3xl:text-2xl 2xl:text-xl xl:text-l md:text-md">
+            <a [routerLink]="item.routerLink">{{item.name}}</a>
           </li>
         </nav>
 

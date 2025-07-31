@@ -1,6 +1,11 @@
-.scene-container {
+#rendererContainer {
+  background-image: url('/assets/background.jpg');
   height: fit-content;
   width: fit-content;
+  position: absolute;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   margin: 0;
   padding: 0;
 }

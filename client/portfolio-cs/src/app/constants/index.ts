@@ -8,7 +8,8 @@ export const links = [
   {
     id:2,
     name:"About Me",
-    href:"/AboutMe"
+    href:"/about-me",
+    routerLink: "./about-me/about-me.component"
   },
   {
     id:3,

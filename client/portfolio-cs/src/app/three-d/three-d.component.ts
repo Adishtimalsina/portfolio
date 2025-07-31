@@ -26,7 +26,7 @@ export class ThreeDComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
-    let objectModel: THREE.Object3D | null = null;
+    let objectModel: THREE.Object3D;
     let reactObject: THREE.Object3D | null = null;
     let dockerObject: THREE.Object3D | null = null;
     let awsObject: THREE.Object3D | null = null;
@@ -34,6 +34,8 @@ export class ThreeDComponent implements AfterViewInit {
     let devObject: THREE.Object3D | null = null;
     let mixer:THREE.AnimationMixer;
     let clock = new THREE.Clock();
+    let raycaster = new THREE.Raycaster();
+    let  mouse = new THREE.Vector2();
     const container = this.containerRef.nativeElement;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
@@ -42,6 +44,8 @@ export class ThreeDComponent implements AfterViewInit {
       0.1,
       1000
     );
+
+
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     container.appendChild(renderer.domElement);
@@ -51,6 +55,9 @@ export class ThreeDComponent implements AfterViewInit {
     scene.add(light);
 
     const orbitController = new OrbitControls(camera, renderer.domElement);
+    orbitController.enableDamping = true;
+    orbitController.dampingFactor = 0.05;
+    orbitController.enableZoom = false;
 
     camera.position.set(2, 5,-12);
 
@@ -98,7 +105,7 @@ export class ThreeDComponent implements AfterViewInit {
          reactObject = gltf.scene;
 
         // Apply transform (customize as needed)
-        reactObject.scale.set(.15, .20, .2);
+        reactObject.scale.set(.20, .20, .2);
 
         reactObject.position.set(7, 5, 0); // Different position than first model
         //  reactObject.rotation.y = Math.PI/2;
@@ -135,6 +142,7 @@ export class ThreeDComponent implements AfterViewInit {
 
         // Apply transform (customize as needed)
         awsObject.scale.set(.10, .10, .2);
+        awsObject.position.set(-7, 4.5, -3);
 
        // awsObject.position.set(-7, 4.5, -3); // Different position than first model
         awsObject.rotation.y = Math.PI;
@@ -173,8 +181,8 @@ export class ThreeDComponent implements AfterViewInit {
         // Apply transform (customize as needed)
         devObject.scale.set(.12, .12, .12);
 
-        devObject.position.set(0, -1.5, -3.5); // Different position than first model
-        devObject.rotation.y = Math.PI;
+        devObject.position.set(0, -1.1, -3.5); // Different position than first model
+       // devObject.rotation.y = Math.PI;
 
         // Add to scene
         scene.add(devObject);
@@ -191,7 +199,7 @@ export class ThreeDComponent implements AfterViewInit {
 
     const animate = function () {
       requestAnimationFrame(animate);
-      let reactClock = performance.now() * 0.0004;
+      let reactClock = performance.now() * 0.0005;
       if(reactObject){
         reactObject.rotation.x +=0.001;
         reactObject.position.z = Math.sin(reactClock)
@@ -205,7 +213,7 @@ export class ThreeDComponent implements AfterViewInit {
 
       let awsClock = performance.now() * 0.0004;
       if(awsObject){
-        awsObject.position.set(-7, 4.5, -3);
+        awsObject.rotation.y -=0.001;
         awsObject.position.y = Math.sin(awsClock);
       }
 
@@ -230,27 +238,99 @@ export class ThreeDComponent implements AfterViewInit {
       renderer.render(scene, camera);
     };
 
+    const onClick = (event: MouseEvent) => {
+      const bounds = renderer.domElement.getBoundingClientRect();
+
+      mouse.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
+      mouse.y = -((event.clientY - bounds.top) / bounds.height) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObject(objectModel, true);
+
+      if (intersects.length > 0) {
+       // this.animationStarted = true;
+        orbitController.enableZoom = true;
+      }else{
+        orbitController.enableZoom = false;
+      }
+    };
+
+
     const updateObjectForScreen = (width: number) => {
       if (!objectModel) return;
 
       let scale = 1;
       let position = new THREE.Vector3(-1.5, -0.5, -1);
 
-      if (width < 768) {
-        scale = 0.6;
-        position = new THREE.Vector3(-1, -0.4, -0.5);
-      } else if (width < 1024) {
-        scale = 0.8;
-        position = new THREE.Vector3(-1.2, -0.45, -0.75);
+      // if (width < 768) {
+      //   // scale = 0.6;
+      //   // position = new THREE.Vector3(-1, -0.4, -0.5);
+      // } else if (width < 1024) {
+      //   scale = 0.8;
+      //   position = new THREE.Vector3(-1.2, -0.45, -0.75);
+      // }
+
+      if(width < 576 ){
+        objectModel.scale.set(0.6,0.6,0.6)
+        objectModel.position.set(-1,-0.4,-0.5);
+         reactObject?.scale.set(.15, .15, .15);
+         reactObject?.position.set(4, 3, 0);
+         dockerObject?.scale.set(.15, .15, .15);
+         dockerObject?.position.set(4, 5, -1);
+         awsObject?.scale.set(.07, .07, .07);
+         awsObject?.position.set(-3, 3, -3);
+         pythonObject?.scale.set(.1, .1, .1);
+         pythonObject?.position.set(-5, 3, -3);
+         devObject?.scale.set(.07, .07, .07);
+         devObject?.position.set(0, -.8, -3);
       }
 
-      objectModel.scale.set(scale, scale, scale);
-      objectModel.position.set(position.x, position.y, position.z);
+      if(width >= 576 && width <768){
+        objectModel.scale.set(0.7,0.7,0.7)
+        objectModel.position.set(-1,-0.4,-0.5);
+        reactObject?.scale.set(.20, .20, .20);
+        reactObject?.position.set(4.5, 3, 0);
+        dockerObject?.scale.set(.20, .20, .20);
+        dockerObject?.position.set(5, 5, -1);
+        awsObject?.scale.set(.09, .09, .09);
+        awsObject?.position.set(-4, 3, -3);
+        pythonObject?.scale.set(.15, .15, .15);
+        pythonObject?.position.set(-5.5, 3, -3);
+        devObject?.scale.set(.09, .09, .09);
+        devObject?.position.set(0, -.8, -3);
+      }
+
+      if(width >= 768 && width < 1024){
+        objectModel.scale.set(0.8,0.8,0.8)
+        objectModel.position.set(-1,-0.4,-0.5);
+        reactObject?.scale.set(.20, .20, .20);
+        reactObject?.position.set(6, 4, 0);
+        dockerObject?.scale.set(.20, .20, .20);
+        dockerObject?.position.set(6, 5, -1);
+        awsObject?.scale.set(.09, .09, .09);
+        awsObject?.position.set(-5, 3, -3);
+        pythonObject?.scale.set(.16, .16, .16);
+        pythonObject?.position.set(-7, 3.5, -3);
+      }
+
+      if(width >= 1024 && width < 1279){
+        objectModel.scale.set(0.9,0.9,0.9)
+        objectModel.position.set(-1,-0.4,-0.5);
+      }
+
+      if(width >= 1279){
+        objectModel.scale.set( 1,1,1)
+        objectModel.position.set(-1,-0.4,-0.5);
+      }
+
+     // objectModel.scale.set(scale, scale, scale);
+
+      //objectModel.position.set(position.x, position.y, position.z);
     };
 
     window.addEventListener('resize', () => {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
+      const width = screen.width;
+      const height = screen.height;
 
       // Update camera and renderer
       camera.aspect = width / height;
@@ -268,6 +348,6 @@ export class ThreeDComponent implements AfterViewInit {
     loadPython3D()
     loadDev3D()
     animate();
-
+    renderer.domElement.addEventListener('click', onClick, false);
   }
 }
