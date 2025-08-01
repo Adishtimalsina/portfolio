@@ -8,7 +8,6 @@ import {RouterLink} from "@angular/router";
   imports: [
     NgForOf,
     NgIf,
-    NgOptimizedImage,
     RouterLink
   ],
   templateUrl: './navbar.component.html',

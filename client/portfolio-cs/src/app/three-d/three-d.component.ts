@@ -19,6 +19,9 @@ import {HemisphereLight} from "three";
 })
 export class ThreeDComponent implements AfterViewInit {
   @ViewChild('rendererContainer', { static: true }) containerRef!: ElementRef;
+  protected objectWidth: number | undefined;
+  protected objectHeight: number | undefined;
+  private rendererContainer = this.containerRef;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object
 
@@ -46,7 +49,7 @@ export class ThreeDComponent implements AfterViewInit {
     );
 
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setSize(window.innerWidth, window.innerHeight);
     container.appendChild(renderer.domElement);
 
@@ -59,7 +62,17 @@ export class ThreeDComponent implements AfterViewInit {
     orbitController.dampingFactor = 0.05;
     orbitController.enableZoom = false;
 
-    camera.position.set(2, 5,-12);
+    camera.position.set(2, 5, -12);
+
+    //resize container
+    const observer = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        const cr = entry.contentRect;
+        this.objectWidth = cr.width;
+        this.objectHeight = cr.height;
+        console.log("objectWidth", this.objectWidth, "objectHeight", this.objectHeight);
+      }
+    })
 
 
     const load3D =function() {
@@ -262,15 +275,8 @@ export class ThreeDComponent implements AfterViewInit {
       let scale = 1;
       let position = new THREE.Vector3(-1.5, -0.5, -1);
 
-      // if (width < 768) {
-      //   // scale = 0.6;
-      //   // position = new THREE.Vector3(-1, -0.4, -0.5);
-      // } else if (width < 1024) {
-      //   scale = 0.8;
-      //   position = new THREE.Vector3(-1.2, -0.45, -0.75);
-      // }
-
       if(width < 576 ){
+        camera.position.set(2, 4, -12);
         objectModel.scale.set(0.6,0.6,0.6)
         objectModel.position.set(-1,-0.4,-0.5);
          reactObject?.scale.set(.15, .15, .15);
@@ -286,6 +292,7 @@ export class ThreeDComponent implements AfterViewInit {
       }
 
       if(width >= 576 && width <768){
+        camera.position.set(2, 4, -10.5);
         objectModel.scale.set(0.7,0.7,0.7)
         objectModel.position.set(-1,-0.4,-0.5);
         reactObject?.scale.set(.20, .20, .20);
@@ -345,9 +352,10 @@ export class ThreeDComponent implements AfterViewInit {
     loadReact3D();
     loadDocker3D();
     loadAWS3D();
-    loadPython3D()
-    loadDev3D()
+    loadPython3D();
+    loadDev3D();
     animate();
+    observer.observe(this.containerRef.nativeElement);
     renderer.domElement.addEventListener('click', onClick, false);
   }
 }

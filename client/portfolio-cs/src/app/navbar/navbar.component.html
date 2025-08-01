@@ -1,9 +1,9 @@
-<header class="top-0 left-0 right-0 bg-black/85 relative">
+<header class="top-0 left-0 right-0 bg-black/85 ">
   <div class="menu flex justify-end mx-auto px-5">
       <div class="flex sm:py-4 md:py-5 xl:py-6 justify-center space-x-10 relative ">
         <nav class="sm:flex hidden text-white space-x-6" >
           <li *ngFor="let item of links"
-              class="list-none 3xl:text-2xl 2xl:text-xl xl:text-l md:text-md">
+              class="list-none 3xl:text-2xl 2xl:text-xl xl:text-l md:text-md sm:text-s">
             <a [routerLink]="item.routerLink">{{item.name}}</a>
           </li>
         </nav>
@@ -30,7 +30,7 @@
   <div class="slide-menu h-auto w-auto sm:hidden lg:hidden md:hidden xl:hidden 2xl:hidden py-5 pl-3 pr-10 border-2 border-amber-100 right-2 text-white mt-5 grid bg-black/95 z-1" *ngIf="isOpen">
 <!--    <div class="grid absolute">-->
     <li *ngFor="let item of links"
-        class="list-none 2xl:text-2xl xl:text-2xl md:text-xl text-xl py-3 px-4 text-white hover:text-2xl">
+        class="list-none 2xl:text-2xl xl:text-2xl md:text-xl text-xs py-3 px-4 text-white hover:text-2xl">
       <a [href]="item.href">{{item.name}}</a>
     </li>
 <!--    </div>-->
