@@ -1,0 +1,17 @@
+.terminal{
+  transform: translateX(-100vw);
+}
+.grayscale{
+  filter: grayscale(100%);
+  max-width: fit-content;
+  object-fit: contain;
+}
+
+.profile{
+  transform: translateX(100px);
+  height: fit-content;
+}
+
+.about-me{
+  height: fit-content;
+}

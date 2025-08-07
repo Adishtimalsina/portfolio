@@ -10,7 +10,6 @@ import * as THREE from 'three';
 import { isPlatformBrowser } from '@angular/common';
 import { OrbitControls } from "three/addons/controls/OrbitControls.js"
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import {HemisphereLight} from "three";
 
 @Component({
   selector: 'app-three-d',
@@ -22,6 +21,7 @@ export class ThreeDComponent implements AfterViewInit {
   protected objectWidth: number | undefined;
   protected objectHeight: number | undefined;
   private rendererContainer = this.containerRef;
+  private screenHeight: number | undefined;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object
 
@@ -50,7 +50,7 @@ export class ThreeDComponent implements AfterViewInit {
 
 
     const renderer = new THREE.WebGLRenderer({antialias: true});
-    renderer.setSize(window.innerWidth, window.innerHeight);
+
     container.appendChild(renderer.domElement);
 
     const light = new THREE.AmbientLight(0xffffff, .9);
@@ -63,6 +63,8 @@ export class ThreeDComponent implements AfterViewInit {
     orbitController.enableZoom = false;
 
     camera.position.set(2, 5, -12);
+    const {clientWidth, clientHeight} = this.containerRef.nativeElement;
+    renderer.setSize(clientWidth, clientHeight);
 
     //resize container
     const observer = new ResizeObserver((entries) => {
@@ -73,6 +75,18 @@ export class ThreeDComponent implements AfterViewInit {
         console.log("objectWidth", this.objectWidth, "objectHeight", this.objectHeight);
       }
     })
+
+    function getModelHeight(object: THREE.Object3D): number {
+      const boundingBox = new THREE.Box3().setFromObject(object);
+      const size = new THREE.Vector3();
+     const X = boundingBox.getSize(size);
+      console.log("boundingBox", X.y*100);
+      return size.y;// height is the y-axis size
+
+    }
+
+
+
 
 
     const load3D =function() {
@@ -101,6 +115,7 @@ export class ThreeDComponent implements AfterViewInit {
          //add helper
          // const hemiHelper = new THREE.HemisphereLightHelper(hemiLigh, 1, 'red');
          // scene.add(hemiHelper);
+         getModelHeight(objectModel)
 
          // Initial responsive scale and position
          updateObjectForScreen(window.innerWidth);
@@ -336,8 +351,10 @@ export class ThreeDComponent implements AfterViewInit {
     };
 
     window.addEventListener('resize', () => {
-      const width = screen.width;
-      const height = screen.height;
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+
+
 
       // Update camera and renderer
       camera.aspect = width / height;
@@ -358,4 +375,5 @@ export class ThreeDComponent implements AfterViewInit {
     observer.observe(this.containerRef.nativeElement);
     renderer.domElement.addEventListener('click', onClick, false);
   }
+
 }

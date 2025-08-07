@@ -1,1 +1,11 @@
-<p class="text-2xl text-white text-center mt-0">about-me works!</p>
+<section #aboutMe class="about-me relative overflow-hidden w-full border-2 border-red-500">
+  <div #terminal class="terminal flex md:h-[100dvh] lg:h-[100dvh] xl:h-[100dvh] relative overflow-hidden  z-0 h-auto w-full">
+    <img src="/assets/terminal.png" alt="terminal"  class="w-full h-auto">
+<!--    <p class="text-2xl text-white">lorum ipsum</p>-->
+  </div>
+  <div #profile class="profile absolute z-10 top-[23%] left-[60%] border-2 border-red-500"
+  >
+    <img src="/assets/photo.png" class="grayscale flex md:h-full lg:h-full xl:h-full" alt="profile" [style.height.px]="profileHeight"
+         [style.width.px]="profileWidth">
+  </div>
+</section>
