@@ -2,8 +2,7 @@ import {AfterViewInit, Component, ElementRef, QueryList, ViewChild} from '@angul
 import {ThreeDComponent} from "../three-d/three-d.component";
 import {AboutMeComponent} from "../about-me/about-me.component";
 import { gsap } from "gsap";
-import { ScrollSmoother} from "gsap/ScrollSmoother";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
 
 @Component({
   selector: 'app-hero-section',
@@ -20,26 +19,22 @@ export class HeroSectionComponent implements AfterViewInit {
 
     ngAfterViewInit() {
 
-      // gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
-      //
-      //  ScrollSmoother.create({
-      //   wrapper: this.heroSection.nativeElement,
-      //   content: this.heroDiv.nativeElement,
-      //   smooth:1
-      // });
-      //
-      // gsap.to(this.heroSection.nativeElement, {
-      //   x:500,
-      //   duration: 2,
-      //   easing: 'none',
-      //   scrollTrigger:{
-      //     trigger: this.heroSection.nativeElement,
-      //     start:"top top",
-      //     end:"+=100%",
-      //     toggleActions:"restart pause reverse pause",
-      //     scrub:3
-      //   }
-      // })
+       gsap.registerPlugin(SplitText);
+
+       let splitTextName = SplitText.create(this.name.nativeElement, {type: "words"});
+       let splitTextTag = SplitText.create(this.tag.nativeElement, {type: "chars"});
+
+      gsap.from(splitTextName.words, {
+        y:-30,
+        autoAlpha:0,
+        stagger:0.06
+      })
+
+      gsap.from(splitTextTag.chars, {
+        x:-30,
+        autoAlpha:0,
+        stagger:0.03
+      })
 
     }
 
